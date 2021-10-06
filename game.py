@@ -1,19 +1,22 @@
+
+
 class Game:
     def __init__(self) -> None:
         #Each base is a member of class Base
-        bases = [ Base() , Base() , Base()]
-        outs = 0
-        balls = 0
-        strikes = 0
-        inning = 1
-        topOfInning = True
-        score = [0, 0]          #visiting score first
-        homeTeam = "Home Team"
-        homeLineUp = ["hPlayer1", "hPlayer2", "hPlayer3", "hPlayer4", "hPlayer5", "hPlayer6", "hPlayer7", "hPlayer8", "hPlayer9"]
-        spotInOrder = [0, 0]    #Moves from 0 to 8 before resetting
-        visitingTeam = "Visiting Team"
-        visitingLineUp = ["vPlayer1", "vPlayer2", "vPlayer3", "vPlayer4", "vPlayer5", "vPlayer6", "vPlayer7", "vPlayer8", "vPlayer9"]
-        atBat = visitingLineUp[0]
+        self.bases = [ Base() , Base() , Base()]
+        self.outs = 0
+        self.balls = 0
+        self.strikes = 0
+        self.inning = 1
+        self.topOfInning = True
+        self.score = [0, 0]          #visiting score first
+        self.homeTeam = "Home Team"
+        self.homeLineUp = ["hPlayer1", "hPlayer2", "hPlayer3", "hPlayer4", "hPlayer5", "hPlayer6", "hPlayer7", "hPlayer8", "hPlayer9"]
+        self.spotInOrder = [0, 0]    #Moves from 0 to 8 before resetting
+        self.visitingTeam = "Visiting Team"
+        self.visitingLineUp = ["vPlayer1", "vPlayer2", "vPlayer3", "vPlayer4", "vPlayer5", "vPlayer6", "vPlayer7", "vPlayer8", "vPlayer9"]
+        self.atBat = self.visitingLineUp[0]
+        self.startGame()
 
 
     def update(self):
@@ -24,6 +27,8 @@ class Game:
             self.nextHitter()
         if self.strikes >= 3:
             self.outs += 1
+            self.balls = 0
+            self.strikes = 0
             self.nextHitter()
         if self.outs >= 3:
             self.newInning()
@@ -47,9 +52,11 @@ class Game:
     def newInning(self):
         if self.topOfInning:
             self.topOfInning = False
+            self.atBat = self.homeLineUp[self.spotInOrder[1]]
         else:
             self.topOfInning = True
             self.inning += 1
+            self.atBat = self.visitingLineUp[self.spotInOrder[0]]
         self.outs = 0
         self.balls = 0
         self.strikes = 0
@@ -81,7 +88,7 @@ class Game:
     def checkForce(self):
         forced = 0
         for i in self.bases:
-            if i.isOccupied:
+            if i.isOccuppied:
                 forced += 1
             else:
                 return forced
@@ -107,7 +114,7 @@ class Game:
     def getBases(self):
         report = []
         for i in self.bases:
-            if i.isOccupied:
+            if i.isOccuppied:
                 report.append(i.onBase)
             else:
                 report.append("Empty")
@@ -119,18 +126,40 @@ class Game:
                 self.strikes += 1
             else:
                 self.balls += 1
+        else:
+            return
+    
+    def startGame(self):
+        while(True):
+            self.displayState()
+            play = input("Next play: ")
+            if play == "b":
+                self.pitch(False, False)
+            elif play == "s":
+                self.pitch(True, False)
+            self.update()
+
+    def displayState(self):
+        print(self.visitingTeam, self.score, self.homeTeam, "   ", "top" if self.topOfInning else "bottom", self.inning,)
+        print(self.balls, "-", self.strikes, " , ", self.outs, " Outs")
+        print("At Bat: ", self.atBat, "     ", 1 if self.bases[0].isOccuppied else 0, 1 if self.bases[1].isOccuppied else 0, 1 if self.bases[2].isOccuppied else 0)
+
+
         
-#Has a boolean isOccupied for checks based on that, and also stores the Player on base
+#Has a boolean isOccuppied for checks based on that, and also stores the Player on base
 class Base:
     def __init__(self) -> None:
-        isOccupied = False
-        onBase = "Empty"
+        self.isOccuppied = False
+        self.onBase = "Empty"
 
     #Doesn't check for baserunner movement yet. 
     def newBaseRunner(self, player):
-        self.isOccupied = True
+        self.isOccuppied = True
         self.onBase = player
 
     def emptyBase(self):
         self.isOccuppied = False
         self.onBase = "Empty"
+
+
+game = Game()
