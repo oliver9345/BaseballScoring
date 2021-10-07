@@ -97,9 +97,9 @@ class Game:
     def force(self):
         forced = self.checkForce()
         if forced > 0:
-            print('Forcing runners on ', range(0, forced-1))
-            for i in range(0, forced-1):
-                self.bases[forced-i].newBaseRunner(self.bases[forced-2-i].onBase)
+            print('Forcing runners on ', range(forced-1))
+            for i in range(0, forced):
+                self.bases[forced-i].newBaseRunner(self.bases[forced-i-1].onBase)
                 print('Forcing runner on base ', i)
         self.bases[0].newBaseRunner(self.atBat)
 
