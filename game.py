@@ -16,7 +16,6 @@ class Game:
         self.visitingTeam = "Visiting Team"
         self.visitingLineUp = ["vPlayer1", "vPlayer2", "vPlayer3", "vPlayer4", "vPlayer5", "vPlayer6", "vPlayer7", "vPlayer8", "vPlayer9"]
         self.atBat = self.visitingLineUp[0]
-        self.startGame()
 
 
     def update(self):
@@ -140,6 +139,7 @@ class Game:
                 self.pitch(True, False)
             self.update()
 
+    #Prints the current game state to the terminal
     def displayState(self):
         print(self.visitingTeam, self.score, self.homeTeam, "   ", "top" if self.topOfInning else "bottom", self.inning,)
         print(self.balls, "-", self.strikes, " , ", self.outs, " Outs")
@@ -163,4 +163,5 @@ class Base:
         self.onBase = "Empty"
 
 
-game = Game()
+
+
