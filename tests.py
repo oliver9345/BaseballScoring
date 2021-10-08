@@ -21,12 +21,12 @@ def test_base():
 
 def test_game():
     print('')
-    print("Game: ")
+    print("Game(): ")
     
 
     #test nextHitter
     testGame = game.Game()
-    print("Testing nextHitter: ", end='')
+    print("nextHitter(): ", end='')
     assert testGame.atBat == 'vPlayer1'
     testGame.nextHitter()
     assert testGame.atBat == 'vPlayer2'
@@ -37,7 +37,7 @@ def test_game():
 
     #test newInning
     testGame = game.Game()
-    print("Testing newInning: ", end='')
+    print("newInning(): ", end='')
     assert testGame.topOfInning
     testGame.newInning()
     assert not testGame.topOfInning
@@ -83,13 +83,20 @@ def test_game():
     print("Passed")
 
     #test pitch
+    print("pitch(): ", end='')
+    testGame = game.Game()
+    assert testGame.balls == 0
+    assert testGame.strikes == 0
+    testGame.pitch(True, False)
+    assert testGame.strikes == 1
+    testGame.pitch(False, False)
+    assert testGame.balls == 1
+    print("Passed")
 
-
-    #test startGame
-
+    #test update
 
     #test checkGameEnd
-    
+
 
 test_base()
 test_game()

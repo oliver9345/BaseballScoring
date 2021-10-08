@@ -138,6 +138,7 @@ class Game:
         while(True):
             self.displayState()
             play = input("Next play: ")
+            #Make switch
             if play == "b":
                 self.pitch(False, False)
             elif play == "s":
