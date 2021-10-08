@@ -90,16 +90,21 @@ class Game:
             if i.isOccuppied:
                 forced += 1
             else:
+                #print("Forced is: ", forced)
                 return forced
+        return forced
 
     #Moves batter to first, moves up any forces runners
     def force(self):
         forced = self.checkForce()
         if forced > 0:
-            print('Forcing runners on ', range(forced-1))
             for i in range(0, forced):
-                self.bases[forced-i].newBaseRunner(self.bases[forced-i-1].onBase)
-                print('Forcing runner on base ', i)
+                if i == 0 and forced == 3:
+                    self.score[0 if self.topOfInning else 1] += 1
+                else:
+                    #TODO: make this a new function: moveUpRunner(i)
+                    self.bases[forced-i].newBaseRunner(self.bases[forced-i-1].onBase)
+                    #print("Forcing R", forced-i+1)
         self.bases[0].newBaseRunner(self.atBat)
 
     def getBalls(self):
