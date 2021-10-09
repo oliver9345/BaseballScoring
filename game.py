@@ -46,7 +46,7 @@ class Game:
                 self.spotInOrder[1] = 0
             self.atBat = self.homeLineUp[self.spotInOrder[1]]
 
-    #TODO
+    
     #Should clear bases, reset counts, etc. 
     def newInning(self):
         if self.topOfInning:
@@ -99,12 +99,8 @@ class Game:
         forced = self.checkForce()
         if forced > 0:
             for i in range(0, forced):
-                if i == 0 and forced == 3:
-                    self.score[0 if self.topOfInning else 1] += 1
-                else:
-                    #TODO: make this a new function: moveUpRunner(i)
-                    self.bases[forced-i].newBaseRunner(self.bases[forced-i-1].onBase)
-                    #print("Forcing R", forced-i+1)
+                self.moveRunner(forced-i, forced-i+1)
+                #print("Forcing R", forced-i+1)
         self.bases[0].newBaseRunner(self.atBat)
 
     def getBalls(self):
@@ -133,6 +129,19 @@ class Game:
                 self.balls += 1
         else:
             return
+
+    #Gets currentBase & newBase in range(1,5)
+    def moveRunner(self, currentBase, newBase):
+        assert currentBase <= newBase, "Can't move runner backwards."
+        if newBase != 4:
+            assert not self.bases[newBase-1].isOccuppied, "New base is occupied already"
+        assert 0 < currentBase and currentBase < 5 and newBase > 0 and newBase < 5, "Invalid inputs for moveRunner"
+        if newBase == 4:
+            self.score[0 if self.topOfInning else 1] += 1
+        else:
+            self.bases[newBase-1].newBaseRunner(self.bases[currentBase-1].onBase)
+        self.bases[currentBase-1].emptyBase()
+
     
     def startGame(self):
         while(True):

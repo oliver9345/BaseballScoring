@@ -93,6 +93,22 @@ def test_game():
     assert testGame.balls == 1
     print("Passed")
 
+    #test moveRunner
+    print("moveRunner(): ", end='')
+    testGame = game.Game()
+    testGame.force()
+    assert testGame.bases[0].isOccuppied
+    testGame.moveRunner(1,2)
+    assert not testGame.bases[0].isOccuppied
+    assert testGame.bases[1].isOccuppied
+    testGame.moveRunner(2,4)
+    assert testGame.score[0] == 1
+    assert not testGame.bases[1].isOccuppied
+    testGame.force()
+    testGame.moveRunner(1,3)
+    assert testGame.bases[2].isOccuppied
+    print("Passed")
+
     #test update
 
     #test checkGameEnd
