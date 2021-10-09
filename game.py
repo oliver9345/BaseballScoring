@@ -182,7 +182,6 @@ class Game:
         while(True):
             self.displayState()
             play = input("Next play: ")
-            #Make switch
             if play == "b":
                 self.pitch(False, False)
             elif play == "s":
@@ -191,10 +190,16 @@ class Game:
                 self.pitch(True, True)
                 for i in range(0,3):
                     if self.bases[2-i].isOccuppied:
-                        #TODO: make whileloop its own function and copy to the batter
                         self.inputMoveRunner(2-i)
                 self.inputMoveRunner(-1)
                 self.update()
+            elif play == "r":
+                runner = int(input("Which runner moves? (input 1-3): "))
+                if not self.bases[runner-1].isOccuppied:
+                    print("That base isn't occupied.")
+                else:
+                    self.inputMoveRunner(runner-1)
+            
 
                             
             self.update()
