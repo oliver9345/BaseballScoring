@@ -135,12 +135,47 @@ class Game:
         assert currentBase <= newBase, "Can't move runner backwards."
         if newBase != 4:
             assert not self.bases[newBase-1].isOccuppied, "New base is occupied already"
-        assert 0 < currentBase and currentBase < 5 and newBase > 0 and newBase < 5, "Invalid inputs for moveRunner"
+        assert 0 <= currentBase and currentBase < 5 and newBase > 0 and newBase < 5, "Invalid inputs for moveRunner"
         if newBase == 4:
             self.score[0 if self.topOfInning else 1] += 1
         else:
-            self.bases[newBase-1].newBaseRunner(self.bases[currentBase-1].onBase)
-        self.bases[currentBase-1].emptyBase()
+            if currentBase == 0:
+                self.bases[newBase-1].newBaseRunner(self.atBat)
+            else:
+                self.bases[newBase-1].newBaseRunner(self.bases[currentBase-1].onBase)
+        if currentBase != 0:
+            self.bases[currentBase-1].emptyBase()
+        else:
+            self.nextHitter()
+
+    def inputMoveRunner(self, base):
+        if base != -1:
+            if not self.bases[base].isOccuppied:
+                print("There's not runner at base", base)
+                return
+        runnerMove = 5
+        while not runnerMove <= 4 or not runnerMove >= base+1:
+            if base == -1:
+                runnerMove = input("Where does the batter go? (enter 1-4 or o): ")
+            else:
+                runnerMove = input("Where does runner on "+ str(base+1) +" go? (enter 1-4 or o): ")
+            if runnerMove == "o":
+                self.outs += 1
+                if base != -1:
+                    self.bases[base].emptyBase()
+                else:
+                    self.nextHitter()
+                return
+            runnerMove = int(runnerMove)
+            if runnerMove < base+1:
+                print("Runners can't move backwards.")
+            if runnerMove == base+1 or runnerMove == 4:
+                break
+            if self.bases[runnerMove-1].isOccuppied:
+                print("That base is occupied")
+                runnerMove = 5
+        if runnerMove != base+1 and type(runnerMove) == int:
+            self.moveRunner(base+1, runnerMove)
 
     
     def startGame(self):
@@ -157,38 +192,8 @@ class Game:
                 for i in range(0,3):
                     if self.bases[2-i].isOccuppied:
                         #TODO: make whileloop its own function and copy to the batter
-                        runnerMove = 0
-                        while not runnerMove <= 4 or not runnerMove >= 2-i+1:
-                            runnerMove = input("Where does runner on "+ str(2-i+1) +" go? (enter 1-4 or o): ")
-                            if runnerMove == "o":
-                                self.outs += 1
-                                self.bases[2-i].emptyBase()
-                                break
-                            runnerMove = int(runnerMove)
-                            if runnerMove < 2-i+1:
-                                print("Runners can't move backwards.")
-                            if runnerMove == 2-i+1 or runnerMove == 4:
-                                break
-                            if self.bases[runnerMove-1].isOccuppied:
-                                print("That base is occupied")
-                                runnerMove = 0
-                        if runnerMove != 2-i+1 and type(runnerMove) == int:
-                            self.moveRunner(2-i+1, runnerMove)
-                runnerMove = 0
-                while not runnerMove <= 4 or not runnerMove >= 1:
-                    runnerMove = input("Where does the batter go? (Enter 1-4 or o): ")
-                    if runnerMove == "o":
-                        self.outs += 1
-                        break
-                    runnerMove = int(runnerMove)
-                    if runnerMove < 1:
-                        print("Please enter a number > 0")
-                    if self.bases[runnerMove-1].isOccuppied:
-                        print("That base is occupied")
-                        runnerMove = 0
-                
-                self.bases[runnerMove-1].newBaseRunner(self.atBat)
-                self.nextHitter()
+                        self.inputMoveRunner(2-i)
+                self.inputMoveRunner(-1)
                 self.update()
 
                             
