@@ -152,6 +152,46 @@ class Game:
                 self.pitch(False, False)
             elif play == "s":
                 self.pitch(True, False)
+            elif play == "h":
+                self.pitch(True, True)
+                for i in range(0,3):
+                    if self.bases[2-i].isOccuppied:
+                        #TODO: make whileloop its own function and copy to the batter
+                        runnerMove = 0
+                        while not runnerMove <= 4 or not runnerMove >= 2-i+1:
+                            runnerMove = input("Where does runner on "+ str(2-i+1) +" go? (enter 1-4 or o): ")
+                            if runnerMove == "o":
+                                self.outs += 1
+                                self.bases[2-i].emptyBase()
+                                break
+                            runnerMove = int(runnerMove)
+                            if runnerMove < 2-i+1:
+                                print("Runners can't move backwards.")
+                            if runnerMove == 2-i+1 or runnerMove == 4:
+                                break
+                            if self.bases[runnerMove-1].isOccuppied:
+                                print("That base is occupied")
+                                runnerMove = 0
+                        if runnerMove != 2-i+1 and type(runnerMove) == int:
+                            self.moveRunner(2-i+1, runnerMove)
+                runnerMove = 0
+                while not runnerMove <= 4 or not runnerMove >= 1:
+                    runnerMove = input("Where does the batter go? (Enter 1-4 or o): ")
+                    if runnerMove == "o":
+                        self.outs += 1
+                        break
+                    runnerMove = int(runnerMove)
+                    if runnerMove < 1:
+                        print("Please enter a number > 0")
+                    if self.bases[runnerMove-1].isOccuppied:
+                        print("That base is occupied")
+                        runnerMove = 0
+                
+                self.bases[runnerMove-1].newBaseRunner(self.atBat)
+                self.nextHitter()
+                self.update()
+
+                            
             self.update()
 
     #Prints the current game state to the terminal
