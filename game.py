@@ -121,6 +121,7 @@ class Game:
                 report.append("Empty")
         return report
 
+    #TODO add pitchcount
     def pitch(self, isStrike, isInPlay):
         if not isInPlay:
             if isStrike:
@@ -148,6 +149,7 @@ class Game:
         else:
             self.nextHitter()
 
+    #Asks user to move runner on base 'base', i.e. the base in self.bases[base-1]
     def inputMoveRunner(self, base):
         if base != -1:
             if not self.bases[base].isOccuppied:
@@ -177,7 +179,8 @@ class Game:
         if runnerMove != base+1 and type(runnerMove) == int:
             self.moveRunner(base+1, runnerMove)
 
-    
+    #TODO: Ask for team setup
+    #Starts a game with default settings and runs until the game is over
     def startGame(self):
         while(True):
             self.displayState()
