@@ -12,9 +12,11 @@ class Game:
         self.score = [0, 0]          #visiting score first
         self.homeTeam = "Home Team"
         self.homeLineUp = ["hPlayer1", "hPlayer2", "hPlayer3", "hPlayer4", "hPlayer5", "hPlayer6", "hPlayer7", "hPlayer8", "hPlayer9"]
+        self.homeDefence = ["hPlayer1", "hPlayer2", "hPlayer3", "hPlayer4", "hPlayer5", "hPlayer6", "hPlayer7", "hPlayer8", "hPlayer9"]
         self.spotInOrder = [0, 0]    #Moves from 0 to 8 before resetting
         self.visitingTeam = "Visiting Team"
         self.visitingLineUp = ["vPlayer1", "vPlayer2", "vPlayer3", "vPlayer4", "vPlayer5", "vPlayer6", "vPlayer7", "vPlayer8", "vPlayer9"]
+        self.visitingDefence = ["vPlayer1", "vPlayer2", "vPlayer3", "vPlayer4", "vPlayer5", "vPlayer6", "vPlayer7", "vPlayer8", "vPlayer9"]
         self.atBat = self.visitingLineUp[0]
 
 
@@ -179,8 +181,7 @@ class Game:
         if runnerMove != base+1 and type(runnerMove) == int:
             self.moveRunner(base+1, runnerMove)
 
-    #TODO: Ask for team setup
-    #Starts a game with default settings and runs until the game is over
+    
     def startGame(self):
         while(True):
             self.displayState()
@@ -201,10 +202,7 @@ class Game:
                 if not self.bases[runner-1].isOccuppied:
                     print("That base isn't occupied.")
                 else:
-                    self.inputMoveRunner(runner-1)
-            
-
-                            
+                    self.inputMoveRunner(runner-1)          
             self.update()
 
     #Prints the current game state to the terminal
