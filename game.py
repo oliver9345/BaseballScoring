@@ -1,4 +1,5 @@
-
+from team import Team
+from player import Player
 
 class Game:
     def __init__(self) -> None:
@@ -10,11 +11,11 @@ class Game:
         self.inning = 1
         self.topOfInning = True
         self.score = [0, 0]          #visiting score first
-        self.homeTeam = "Home Team"
+        self.homeTeam = Team("Home Team")
         self.homeLineUp = ["hPlayer1", "hPlayer2", "hPlayer3", "hPlayer4", "hPlayer5", "hPlayer6", "hPlayer7", "hPlayer8", "hPlayer9"]
         self.homeDefence = ["hPlayer1", "hPlayer2", "hPlayer3", "hPlayer4", "hPlayer5", "hPlayer6", "hPlayer7", "hPlayer8", "hPlayer9"]
         self.spotInOrder = [0, 0]    #Moves from 0 to 8 before resetting
-        self.visitingTeam = "Visiting Team"
+        self.visitingTeam = Team("Visiting Team")
         self.visitingLineUp = ["vPlayer1", "vPlayer2", "vPlayer3", "vPlayer4", "vPlayer5", "vPlayer6", "vPlayer7", "vPlayer8", "vPlayer9"]
         self.visitingDefence = ["vPlayer1", "vPlayer2", "vPlayer3", "vPlayer4", "vPlayer5", "vPlayer6", "vPlayer7", "vPlayer8", "vPlayer9"]
         self.atBat = self.visitingLineUp[0]
