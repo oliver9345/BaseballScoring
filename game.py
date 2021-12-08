@@ -81,7 +81,7 @@ class Game:
 
     #TODO
     def endGame(self):
-        pass
+        print(self.visitingTeam.name, self.score, self.homeTeam.name, " Final")
             
 
     #Returns how many runners are forced

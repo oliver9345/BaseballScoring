@@ -6,6 +6,8 @@ class Player:
         spotInOrder = -1
         fieldingPosition = -1
         team = inputTeam
+        plate_appearences = 0
+
 
     def getTeam(self):
         return self.team
@@ -15,3 +17,10 @@ class Player:
 
     def setPosition(self, newPosition):
         self.fieldingPosition = newPosition
+
+    def setSpotInOrder(self, newSpot):
+        self.spotInOrder = newSpot
+
+    def gameInit(self, position, battingOrder):
+        self.setPosition(position)
+        self.setSpotInOrder(battingOrder)
