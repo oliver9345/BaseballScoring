@@ -2,7 +2,7 @@ from team import Team
 from player import Player
 
 class Game:
-    def __init__(self) -> None:
+    def __init__(self, homeTeam, visitingTeam) -> None:
         #Each base is a member of class Base
         self.bases = [ Base() , Base() , Base()]
         self.outs = 0
@@ -11,12 +11,13 @@ class Game:
         self.inning = 1
         self.topOfInning = True
         self.score = [0, 0]          #visiting score first
-        self.homeTeam = Team("Home Team")
-        self.homeTeam.initGame()
+        self.homeTeam = homeTeam
+        self.homeTeam.initGame(self)
         self.spotInOrder = [0, 0]    #Moves from 0 to 8 before resetting
-        self.visitingTeam = Team("Visiting Team")
-        self.visitingTeam.initGame()
+        self.visitingTeam = visitingTeam
+        self.visitingTeam.initGame(self)
         self.atBat = self.visitingTeam.LineUp[0]
+        self.gameLog = ""
 
     #Checks whether a walk or a strikeout has been issued. Also checks whether the next inning needs to be made. 
     def update(self):
@@ -82,7 +83,8 @@ class Game:
     #TODO
     def endGame(self):
         print(self.visitingTeam.name, self.score, self.homeTeam.name, " Final")
-            
+        self.visitingTeam.endGame(self)
+        self.homeTeam.endGame(self)
 
     #Returns how many runners are forced
     def checkForce(self):
@@ -180,7 +182,7 @@ class Game:
         if runnerMove != base+1 and type(runnerMove) == int:
             self.moveRunner(base+1, runnerMove)
 
-    
+    #Runs the game via user input
     def startGame(self):
         while(True):
             self.displayState()
@@ -211,7 +213,6 @@ class Game:
         print("At Bat: ", self.atBat, "     ", 1 if self.bases[0].isOccuppied else 0, 1 if self.bases[1].isOccuppied else 0, 1 if self.bases[2].isOccuppied else 0)
 
 
-        
 #Has a boolean isOccuppied for checks based on that, and also stores the Player on base
 class Base:
     def __init__(self) -> None:
@@ -226,7 +227,3 @@ class Base:
     def emptyBase(self):
         self.isOccuppied = False
         self.onBase = "Empty"
-
-
-
-
