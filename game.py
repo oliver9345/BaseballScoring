@@ -12,15 +12,13 @@ class Game:
         self.topOfInning = True
         self.score = [0, 0]          #visiting score first
         self.homeTeam = Team("Home Team")
-        self.homeLineUp = ["hPlayer1", "hPlayer2", "hPlayer3", "hPlayer4", "hPlayer5", "hPlayer6", "hPlayer7", "hPlayer8", "hPlayer9"]
-        self.homeDefence = ["hPlayer1", "hPlayer2", "hPlayer3", "hPlayer4", "hPlayer5", "hPlayer6", "hPlayer7", "hPlayer8", "hPlayer9"]
+        self.homeTeam.initGame()
         self.spotInOrder = [0, 0]    #Moves from 0 to 8 before resetting
         self.visitingTeam = Team("Visiting Team")
-        self.visitingLineUp = ["vPlayer1", "vPlayer2", "vPlayer3", "vPlayer4", "vPlayer5", "vPlayer6", "vPlayer7", "vPlayer8", "vPlayer9"]
-        self.visitingDefence = ["vPlayer1", "vPlayer2", "vPlayer3", "vPlayer4", "vPlayer5", "vPlayer6", "vPlayer7", "vPlayer8", "vPlayer9"]
-        self.atBat = self.visitingLineUp[0]
+        self.visitingTeam.initGame()
+        self.atBat = self.visitingTeam.LineUp[0]
 
-
+    #Checks whether a walk or a strikeout has been issued. Also checks whether the next inning needs to be made. 
     def update(self):
         if self.balls >= 4:
             self.force()
